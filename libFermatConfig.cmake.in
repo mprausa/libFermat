@@ -1,0 +1,16 @@
+# Config file for the libFermat package
+# It defines the following variables
+#  LIBFERMAT_INCLUDE_DIRS - include directories for libFermat
+#  LIBFERMAT_LIBRARIES    - libraries to link against
+ 
+get_filename_component(LIBFERMAT_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+set(LIBFERMAT_INCLUDE_DIR "@CONF_INCLUDE_DIR@")
+set(LIBFERMAT_LIBRARY_DIR "@CONF_LIBRARY_DIR@")
+
+if(NOT TARGET Fermat)
+  include("${LIBFERMAT_CMAKE_DIR}/libFermatTargets.cmake")
+endif()
+
+set(LIBFERMAT_LIBRARIES Fermat)
+
