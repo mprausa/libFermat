@@ -14,7 +14,7 @@ foreach(p LIB INCLUDE CMAKE)
   endif()
 endforeach()
 
-find_package(Boost 1.61.0 REQUIRED)
+find_package(Boost 1.59.0 REQUIRED)
 find_path(PSTREAMS_INCLUDE_DIR pstream.h)
 
 if (NOT PSTREAMS_INCLUDE_DIR)
