@@ -3,7 +3,7 @@
 /*
  *  src/FermatExpression.cpp
  *
- *  Copyright (C) 2016 Mario Prausa
+ *  Copyright (C) 2016, 2017 Mario Prausa
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as 
@@ -90,9 +90,16 @@ Fermat *FermatExpression::fer() const {
 FermatExpression &FermatExpression::operator=(const string &expr) {
     if (!fermat) throw invalid_argument("not initialized");
 
-    (*fermat)("&U");
-	(*fermat)(_name+":="+expr);
-    (*fermat)("&U");
+    (*fermat)("&(U=0)");
+
+    try {
+	    (*fermat)(_name+":="+expr);
+    } catch(...) {
+        (*fermat)("&(U=1)");
+        throw;
+    }        
+
+    (*fermat)("&(U=1)");
 
 	return *this;
 }

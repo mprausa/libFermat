@@ -3,7 +3,7 @@
 /*
  *  src/FermatArray.cpp
  *
- *  Copyright (C) 2016 Mario Prausa
+ *  Copyright (C) 2016, 2017 Mario Prausa
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Lesser General Public License as 
@@ -58,9 +58,17 @@ FermatArray::FermatArray(Fermat *fermat, int n) {
 	
 	strm << "Array " << _name << "[" << n << "]";
     
-    (*fermat)("&U");    //workaround
-	(*fermat)(strm.str());
-    (*fermat)("&U");    //workaround
+    (*fermat)("&(U=0)");
+
+    try {
+        (*fermat)(strm.str());
+    } catch(...) {
+        (*fermat)("&(U=1)");
+        throw;
+    }        
+
+    (*fermat)("&(U=1)");
+
 	(*fermat)(string("[")+_name+"]");
 }
 
@@ -84,9 +92,17 @@ FermatArray::FermatArray(Fermat *fermat, int r, int c, bool sparse) {
         strm << " Sparse";
     }
 
-    (*fermat)("&U");    //workaround
-	(*fermat)(strm.str());
-    (*fermat)("&U");    //workaround
+    (*fermat)("&(U=0)");
+
+    try {
+        (*fermat)(strm.str());
+    } catch(...) {
+        (*fermat)("&(U=1)");
+        throw;
+    }        
+
+    (*fermat)("&(U=1)");
+
 	if (!sparse) {
         (*fermat)(string("[")+_name+"]");
     }
@@ -108,9 +124,17 @@ FermatArray::FermatArray(Fermat *fermat, std::string str) {
     
     strm << "Array " << tmp << "[" << c << "," << r << "]";
 
-    (*fermat)("&U");    //workaround
-    (*fermat)(strm.str());
-    (*fermat)("&U");    //workaround
+    (*fermat)("&(U=0)");
+
+    try {
+        (*fermat)(strm.str());
+    } catch(...) {
+        (*fermat)("&(U=1)");
+        throw;
+    }        
+
+    (*fermat)("&(U=1)");
+
     (*fermat)(string("[")+tmp+"] := [["+str+"]]");
     (*fermat)(string("[")+_name+"] := Trans["+tmp+"]");
     (*fermat)(string("@[")+tmp+"]");
