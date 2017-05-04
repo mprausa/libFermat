@@ -639,7 +639,7 @@ string FermatArray::sstr() const {
         b = (c == ']');
     }
     
-    return str;  
+    return str1;
 }
    
     
