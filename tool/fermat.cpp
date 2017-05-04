@@ -24,16 +24,43 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-#include <boost/algorithm/string.hpp>
+#include <stdexcept>
 using namespace std;
-using namespace boost;
 
 static vector<string> parseSymbols(const string &str) {
     vector<string> symbols;
+    string sym="";
 
-    split(symbols,str,is_any_of(","));
+    for (auto &c : str) {
+        if (c == ',') {
+            symbols.push_back(sym);
+            sym = "";
+        } else {
+            sym += c;
+        }
+    }
+    symbols.push_back(sym);
 
     return symbols;
+}
+
+// trim from start
+static inline std::string &ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
+}
+
+// trim from end
+static inline std::string &rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(),
+            std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
+}
+
+// trim from both ends
+static inline std::string &trim(std::string &s) {
+    return ltrim(rtrim(s));
 }
 
 static void source(Fermat *fermat, const string &filename) {
