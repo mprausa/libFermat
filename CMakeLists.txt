@@ -15,15 +15,10 @@ foreach(p LIB INCLUDE CMAKE)
 endforeach()
 
 find_package(Boost 1.59.0 REQUIRED)
-find_path(PSTREAMS_INCLUDE_DIR pstream.h)
-
-if (NOT PSTREAMS_INCLUDE_DIR)
-  message(FATAL_ERROR "pstream.h not found. Download PStreams from http://pstreams.sourceforge.net")
-endif(NOT PSTREAMS_INCLUDE_DIR)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/pstreams)
 include_directories(${Boost_INCLUDE_DIR})
-include_directories(${PSTREAMS_INCLUDE_DIR})
 
 file(GLOB SOURCES src/*.cpp)
 file(GLOB TOOL_SOURCES tool/*.cpp)
@@ -32,7 +27,7 @@ add_library(Fermat SHARED ${SOURCES})
 add_executable(fermat ${TOOL_SOURCES})
 target_link_libraries(fermat Fermat)
 
-install (DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.h")
+install (DIRECTORY include/ pstreams/ DESTINATION include FILES_MATCHING PATTERN "*.h")
 install (TARGETS Fermat EXPORT libFermatTargets DESTINATION lib)
 install (TARGETS fermat DESTINATION bin)
 
