@@ -22,10 +22,7 @@
 #include <FermatExpression.h>
 #include <stdexcept>
 #include <sstream>
-#include <boost/range/algorithm/remove_if.hpp>
-
 using namespace std;
-using namespace boost;
 
 FermatExpression::FermatExpression() {
     fermat = NULL;
@@ -69,7 +66,7 @@ string FermatExpression::str() const {
     if (!fermat) return "<uninitialized>";
 
 	string res = (*fermat)(_name);
-    res.erase(remove_if(res, ::isspace), res.end());
+    res.erase(remove_if(res.begin(), res.end(), ::isspace), res.end());
 
     size_t pos = res.find(";or");
     if (pos != string::npos) {

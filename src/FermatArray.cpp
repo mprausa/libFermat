@@ -24,12 +24,7 @@
 #include <stdexcept>
 #include <sstream>
 #include <iostream>
-#include <boost/range/algorithm/remove_if.hpp>
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/algorithm/string.hpp>
-#include <boost/utility.hpp>
 using namespace std;
-using namespace boost;
 
 FermatArray::FermatArray() {
     fermat = NULL;
@@ -118,7 +113,10 @@ FermatArray::FermatArray(Fermat *fermat, std::string str) {
     r = count(str.begin(),str.end(),'{')-1;
     c = (count(str.begin(),str.end(),',')+1)/r;
     
-    str.erase(remove_if(str, is_any_of("{} \t")), str.end());
+    str.erase(remove_if(str.begin(),str.end(),
+        [](char c) {
+            return c=='{' || c=='}' || c==' ' || c=='\t';
+        }),str.end());
 
     tmp = fermat->getUnique();
     
@@ -563,7 +561,7 @@ bool FermatArray::isZero() const {
 
     res = (*fermat)(string("Iszero[")+_name+"]");
 
-    res.erase(remove_if(res, ::isspace), res.end());
+    res.erase(remove_if(res.begin(),res.end(), ::isspace), res.end());
    
     return res == "1";
 }
@@ -606,11 +604,16 @@ string FermatArray::str() const {
 
     string str = (*fermat)(string("[")+_name+"]");
 
-    str.erase(remove_if(str, ::isspace), str.end());
-    str.erase(prior(str.end()));
+    str.erase(remove_if(str.begin(), str.end(), ::isspace), str.end());
+    str.pop_back();
 
-    replace_all(str,"[","{");
-    replace_all(str,"]","}");
+    for (char &c : str) {
+        if (c == '[') {
+            c = '{';
+        } else if (c == ']') {
+            c = '}';
+        }
+    }
 
     return str;
 }
@@ -620,13 +623,23 @@ string FermatArray::sstr() const {
 
     string str = (*fermat)(string("![")+_name+"]");
     
-    str.erase(remove_if(str, ::isspace), str.end());
-    str.erase(prior(str.end()));
+    str.erase(remove_if(str.begin(), str.end(), ::isspace), str.end());
+    str.pop_back();
 
     str.erase(0,str.find(":=")+2);
+   
+    string str1="";
+    bool b=false;
+
+    for (char c : str) {
+        if (b && c == '[') {
+            str1 += ',';
+        }
+        str1 += c;
+        b = (c == ']');
+    }
     
-    replace_all(str,"][","],[");
-    return str;  
+    return str1;
 }
    
     

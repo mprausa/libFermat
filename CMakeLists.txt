@@ -14,11 +14,8 @@ foreach(p LIB INCLUDE CMAKE)
   endif()
 endforeach()
 
-find_package(Boost 1.59.0 REQUIRED)
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/pstreams)
-include_directories(${Boost_INCLUDE_DIR})
 
 file(GLOB SOURCES src/*.cpp)
 file(GLOB TOOL_SOURCES tool/*.cpp)
