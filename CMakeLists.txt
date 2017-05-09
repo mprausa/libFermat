@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.0)
 project(libFermat)
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 11)
@@ -24,8 +24,8 @@ add_library(Fermat SHARED ${SOURCES})
 add_executable(fermat ${TOOL_SOURCES})
 target_link_libraries(fermat Fermat)
 
-install (DIRECTORY include/ pstreams/ DESTINATION include FILES_MATCHING PATTERN "*.h")
-install (TARGETS Fermat EXPORT libFermatTargets DESTINATION lib)
+install (DIRECTORY include/ pstreams/ DESTINATION "${INSTALL_INCLUDE_DIR}" FILES_MATCHING PATTERN "*.h")
+install (TARGETS Fermat EXPORT libFermatTargets DESTINATION "${INSTALL_LIB_DIR}")
 install (TARGETS fermat DESTINATION bin)
 
 file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}" "${INSTALL_INCLUDE_DIR}")
