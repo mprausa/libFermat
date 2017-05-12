@@ -21,12 +21,13 @@ file(GLOB SOURCES src/*.cpp)
 file(GLOB TOOL_SOURCES tool/*.cpp)
 
 add_library(Fermat SHARED ${SOURCES})
-add_executable(fermat ${TOOL_SOURCES})
-target_link_libraries(fermat Fermat)
+add_executable(fermat_exe ${TOOL_SOURCES})
+target_link_libraries(fermat_exe Fermat)
+set_target_properties(fermat_exe PROPERTIES OUTPUT_NAME fermat)
 
 install (DIRECTORY include/ pstreams/ DESTINATION "${INSTALL_INCLUDE_DIR}" FILES_MATCHING PATTERN "*.h")
 install (TARGETS Fermat EXPORT libFermatTargets DESTINATION "${INSTALL_LIB_DIR}")
-install (TARGETS fermat DESTINATION bin)
+install (TARGETS fermat_exe DESTINATION bin)
 
 file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}" "${INSTALL_INCLUDE_DIR}")
 file(RELATIVE_PATH REL_LIBRARY_DIR "${INSTALL_CMAKE_DIR}" "${INSTALL_LIB_DIR}")
