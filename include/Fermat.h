@@ -41,6 +41,8 @@ class Fermat {
         void dropSymbol(std::string sym);
         std::string getUnique();
         std::string operator() (std::string in);
+    private:
+        bool check();
 };
 
 #endif //__FERMAT_H

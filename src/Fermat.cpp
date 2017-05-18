@@ -21,6 +21,7 @@
 
 #include <Fermat.h>
 #include <FermatException.h>
+#include <FermatExpression.h>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
@@ -45,6 +46,10 @@ Fermat::Fermat(string path, bool verbose) {
 
     while(getline(strm,str)) {
         if (str == ">") break;
+    }
+
+    if (!check()) {
+        throw invalid_argument("Fermat doesn't run properly. Check your Fermat installation.");
     }
 }
 
@@ -127,4 +132,7 @@ string Fermat::operator() (string in) {
     return out;
 }
 
+bool Fermat::check() {
+    return FermatExpression(this,"(1+5+3+2+9+4)/(7+3)").str() == "12/5";
+}
 
