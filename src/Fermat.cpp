@@ -32,6 +32,10 @@ Fermat::Fermat(string path, bool verbose) {
     string str;
     serial = 1;
 
+    if (path[0] != '/' && path.find('/') != string::npos && path[0] != '.') { 
+        path = "./" + path;     // fermat won't start if path is relative and doesn't start with '.'
+    }
+
     _path = path;
     this->verbose = verbose;
 
