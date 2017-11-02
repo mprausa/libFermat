@@ -60,6 +60,7 @@ class FermatExpression {
         FermatExpression numer() const;
         FermatExpression denom() const;
         int deg(std::string symbol) const;
+        int codeg(std::string symbol) const;
 
         FermatExpression subst(std::string symbol, const FermatExpression &repl) const;
         FermatExpression subst(std::string symbol, int i) const;

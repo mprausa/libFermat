@@ -261,6 +261,18 @@ int FermatExpression::deg(string symbol) const {
     return n;
 }
 
+int FermatExpression::codeg(string symbol) const {
+    if (!fermat) throw invalid_argument("not initialized");
+
+    int n;
+    stringstream strm;
+
+    strm.str((*fermat)("Codeg("+_name+","+symbol+")"));
+    strm >> n;
+
+    return n;
+}
+
 FermatExpression FermatExpression::subst(string symbol, const FermatExpression &repl) const {
     if (!fermat) throw invalid_argument("not initialized");
 
