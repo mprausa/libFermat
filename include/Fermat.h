@@ -35,8 +35,8 @@ class Fermat {
         Fermat(std::string path, bool verbose=false);
         ~Fermat();
 
-        std::string path();
-
+        std::string path() const;
+        redi::pstream &stream(); 
         void addSymbol(std::string sym);
         void dropSymbol(std::string sym);
         std::string getUnique();

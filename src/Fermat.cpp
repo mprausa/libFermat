@@ -57,8 +57,12 @@ Fermat::~Fermat() {
     (*this)("&q");
 }
 
-string Fermat::path() {
+string Fermat::path() const {
     return _path;
+}
+
+pstream &Fermat::stream() {
+    return strm;
 }
 
 void Fermat::addSymbol(string sym) {
